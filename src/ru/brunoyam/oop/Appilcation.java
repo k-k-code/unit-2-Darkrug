@@ -20,26 +20,34 @@ public class Appilcation {
         Passenger passenger3 = new Passenger("Vladislav", "Sidorov", "Alekseyevich", "9999953");
         Passenger passenger4 = new Passenger("Gleb", "Sharikov", "Andreyevich", "880053784");
 
-        Passenger[] busPassengers = new Passenger[1];
-        busPassengers[0] = passenger1;
 
-        Passenger[] planePassengers = new Passenger[1];
-        planePassengers[0] = passenger2;
+        Bus bus = new Bus(BusType.CITY);
+        System.out.println("--Автобус--");
+        bus.addPassenger(bus, passenger1);
 
-        Passenger[] shipPassengers = new Passenger[1];
-        shipPassengers[0] = passenger3;
+        Plane plane = new Plane(PlaneCabin.FIRST);
+        System.out.println("--Самолет--");
+        plane.addPassenger(plane, passenger2);
 
-        Passenger[] trainPassengers = new Passenger[1];
-        trainPassengers[0] = passenger4;
+        Ship ship = new Ship(ShipType.YACHT);
+        System.out.println("--Корабль--");
+        ship.addPassenger(ship, CabinType.COMFORT, new Passenger("115465"));
+        ship.addPassenger(ship, CabinType.COMFORT, new Passenger("25465"));
+        ship.addPassenger(ship, CabinType.COMFORT, new Passenger("3465"));
+        ship.addPassenger(ship, CabinType.COMFORT, new Passenger("45465"));
+        ship.addPassenger(ship, CabinType.STANDARD, new Passenger("55465"));
+        ship.addPassenger(ship, CabinType.ECONOMY, new Passenger("65465"));
 
-        Bus bus = new Bus(true, 5, 300, 60, 2000);
-        bus.setPassengers(busPassengers);
-        Plane plane = new Plane(120, 160, 20000, true);
-        plane.setPassengers(planePassengers);
-        Ship ship = new Ship();
-        ship.setPassengers(shipPassengers);
-        Train train = new Train();
-        train.setPassengers(trainPassengers);
+        Train train = new Train(TrainType.SPEED_TRAIN);
+        System.out.println("--Поезд--");
+        train.addPassenger(train, CompartmentType.COMFORT, new Passenger("125465"));
+        train.addPassenger(train, CompartmentType.COMFORT, new Passenger("2125465"));
+        train.addPassenger(train, CompartmentType.COMFORT, new Passenger("3125465"));
+        train.addPassenger(train, CompartmentType.COMFORT, new Passenger("4525465"));
+        train.addPassenger(train, CompartmentType.COMFORT, new Passenger("5725465"));
+        train.addPassenger(train, CompartmentType.COMFORT, new Passenger("6825465"));
+
+        System.out.println("--------------------------");
 
         Transport[] transports = new Transport[4];
         transports[0] = bus;
@@ -52,7 +60,15 @@ public class Appilcation {
             System.out.println(value.toString());
         }
 
+        System.out.println("--------------------------");
+        System.out.println("--------Уровень 3---------");
+
+        RouteInfo route1 = new RouteInfo("01.05.2021 - 02.05.2021", train, "Saint-Petersburg - Moscow");
+
+        System.out.println(route1);
+
 
     }
+
 
 }

@@ -22,7 +22,7 @@ public abstract class Transport {
      * Конструктор без аргументов
      */
     public Transport() {
-        System.out.println("transport was created!");
+
     }
 
     /**

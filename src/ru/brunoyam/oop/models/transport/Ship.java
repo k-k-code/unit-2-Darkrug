@@ -6,37 +6,56 @@ import java.util.Arrays;
 
 public class Ship extends Transport {
 
-    private Cabin[] cabins = new Cabin[10];
+    private ShipType type;
+    private Cabin[] cabins;
 
-    private Passenger[] passengers = new Passenger[10];
 
-    public Cabin[] getCabins() {
-        return cabins;
+    public Ship(ShipType type) {
+        this.type = type;
+        int cabinsNumber = type.getComfortCabinsNumber()
+                + type.getStandardCabinsNumber()
+                + type.getEconomyCabinsNumber();
+
+        cabins = new Cabin[cabinsNumber];
+
+        int i = 0;
+        while (i < type.getEconomyCabinsNumber()) {
+            cabins[i] = new Cabin(CabinType.ECONOMY);
+            i++;
+        }
+        while (i < type.getEconomyCabinsNumber() + type.getStandardCabinsNumber()) {
+            cabins[i] = new Cabin(CabinType.STANDARD);
+            i++;
+        }
+        while (i < cabinsNumber) {
+            cabins[i] = new Cabin(CabinType.COMFORT);
+            i++;
+        }
     }
 
-    public void setCabins(Cabin[] cabins) {
-        this.cabins = cabins;
+    public boolean isPlace(CabinType cabinType, Passenger passenger) {
+        for (Cabin cabin : cabins) {
+            if (cabin.getType() == cabinType
+                    && cabin.placePassenger(passenger)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public Passenger[] getPassengers() {
-        return passengers;
+    public static void addPassenger(Ship ship, CabinType cabinType, Passenger passenger) {
+        if (ship.isPlace(cabinType, passenger)) {
+            System.out.println("Билет продан" + "( " + cabinType + " )");
+        } else {
+            System.out.println("На корабле нет свободных мест класса " + cabinType);
+        }
     }
 
-    public void setPassengers(Passenger[] passengers) {
-        this.passengers = passengers;
-    }
 
     @Override
     public String toString() {
 
-        String passengerList = "";
-        getPassengers();
-        for (Passenger value : passengers) {
-            passengerList = passengerList + value.getFullName() + "; ";
-        }
-
-        return "Ship {" +
-                "Passengers: " + passengerList +
+        return "Ship {" + " ShipType = " + type.name() + ", " + Arrays.toString(cabins) +
                 '}';
     }
 }

@@ -4,59 +4,41 @@ import ru.brunoyam.oop.models.Passenger;
 
 import java.util.Arrays;
 
-/**
- * Авиатранспорт (самолет) прикрепленный к определенному авиамаршруту
- */
 public class Plane extends Transport {
-    /**
-     * Багаж включен в стоимость билета
-     */
-    private boolean luggage;
 
-    private Passenger[] passengers = new Passenger[10];
+    private PlaneCabin type;
+    private final Passenger[] passengers;
 
-    /**
-     * Конструктор, заполняющий все поля.
-     *
-     * @param travelTime  время в пути
-     * @param seatsNumber количество мест
-     * @param cost        стоимость билета
-     * @param luggage     багаж включен в стоимость билета
-     */
-    public Plane(int travelTime, int seatsNumber,
-                 int cost, boolean luggage) {
-
-        super(travelTime, seatsNumber, cost);
-        this.luggage = luggage;
+    public Plane(PlaneCabin type) {
+        this.type = type;
+        passengers = new Passenger[type.getSeatsNumber()];
     }
 
-    public boolean isLuggage() {
-        return luggage;
+    public boolean placePassenger(Passenger passenger) {
+        for (int i = 0; i < passengers.length; i++) {
+            if (passengers[i] == null) {
+                passengers[i] = passenger;
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void setLuggage(boolean luggage) {
-        this.luggage = luggage;
-    }
-
-    public Passenger[] getPassengers() {
-        return passengers;
-    }
-
-    public void setPassengers(Passenger[] passengers) {
-        this.passengers = passengers;
+    public static void addPassenger(Plane plane, Passenger passenger) {
+        if (plane.placePassenger(passenger)) {
+            System.out.println("Билет продан");
+        } else {
+            System.out.println("В этой секции самолета нет свободных мест");
+        }
     }
 
     @Override
     public String toString() {
-        String passengerList = "";
-        getPassengers();
-        for (Passenger value : passengers) {
-            passengerList = passengerList + value.getFullName() + "; ";
-        }
-
-        return "Plane {" +
-                "luggage=" + luggage +
-                ". Passengers=" + passengerList +
+        return "Plane {" + " ComfortClass=" + type.name() +
+                ", PlaneCabinSeatNumber=" + type.getSeatsNumber() + '\'' +
+                ", cost=" + type.getCost() +
+                ", passengers=" + Arrays.toString(passengers) +
                 '}';
     }
+
 }

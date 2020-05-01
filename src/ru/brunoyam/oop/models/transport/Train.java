@@ -6,37 +6,56 @@ import java.util.Arrays;
 
 public class Train extends Transport {
 
-    private Compartment[] compartments = new Compartment[10];
+    private TrainType type;
+    private Compartment[] compartments;
 
-    private Passenger[] passengers = new Passenger[10];
+    public Train(TrainType type) {
+        this.type = type;
+        int compartmentsNumber = type.getComfortCompartmentsNumber()
+                + type.getStandardCompartmentsNumber()
+                + type.getEconomyCompartmentsNumber();
 
-    public Compartment[] getCompartments() {
-        return compartments;
+        compartments = new Compartment[compartmentsNumber];
+
+        int i = 0;
+        while (i < type.getEconomyCompartmentsNumber()) {
+            compartments[i] = new Compartment(CompartmentType.ECONOMY);
+            i++;
+        }
+        while (i < type.getEconomyCompartmentsNumber() + type.getStandardCompartmentsNumber()) {
+            compartments[i] = new Compartment(CompartmentType.STANDARD);
+            i++;
+        }
+        while (i < compartmentsNumber) {
+            compartments[i] = new Compartment(CompartmentType.COMFORT);
+            i++;
+        }
     }
 
-    public void setCompartments(Compartment[] compartments) {
-        this.compartments = compartments;
+    public boolean isPlace(CompartmentType compartmentType, Passenger passenger) {
+        for (Compartment compartment : compartments) {
+            if (compartment.getType() == compartmentType
+                    && compartment.placePassenger(passenger)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public Passenger[] getPassengers() {
-        return passengers;
+    public static void addPassenger(Train train, CompartmentType compartmentType, Passenger passenger) {
+        if (train.isPlace(compartmentType, passenger)) {
+            System.out.println("Билет продан" + "( " + compartmentType + " )");
+        } else {
+            System.out.println("На корабле нет свободных мест класса " + compartmentType);
+        }
     }
 
-    public void setPassengers(Passenger[] passengers) {
-        this.passengers = passengers;
-    }
 
     @Override
     public String toString() {
 
-        String passengerList = "";
-        getPassengers();
-        for (Passenger value : passengers) {
-            passengerList = passengerList + value.getFullName() + "; ";
-        }
-
-        return "Train {" +
-                "Passengers:" + passengerList +
+        return "Train {" + " TrainType = " + type.name() + ", " + Arrays.toString(compartments) +
                 '}';
     }
+
 }

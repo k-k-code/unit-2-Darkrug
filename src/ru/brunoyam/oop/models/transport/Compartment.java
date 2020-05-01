@@ -1,23 +1,41 @@
 package ru.brunoyam.oop.models.transport;
 
+import ru.brunoyam.oop.models.Passenger;
+
+import java.util.Arrays;
+
 public class Compartment {
 
-    private byte compartmentSeatNumber;
-    private String compartmentComfortClass;
+    private final CompartmentType type;
+    private final Passenger[] passengers;
 
-    public byte getCompartmentSeatNumber() {
-        return compartmentSeatNumber;
+    public Compartment(CompartmentType type) {
+        this.type = type;
+        passengers = new Passenger[type.getSeatsNumber()];
     }
 
-    public void setCompartmentSeatNumber(byte compartmentSeatNumber) {
-        this.compartmentSeatNumber = compartmentSeatNumber;
+    public CompartmentType getType() {
+        return type;
     }
 
-    public String getCompartmentComfortClass() {
-        return compartmentComfortClass;
+    public boolean placePassenger(Passenger passenger) {
+        for (int i = 0; i < passengers.length; i++) {
+            if (passengers[i] == null) {
+                passengers[i] = passenger;
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void setCompartmentComfortClass(String compartmentComfortClass) {
-        this.compartmentComfortClass = compartmentComfortClass;
+    @Override
+    public String toString() {
+        return "Compartment{" +
+                "compartmentSeatNumber=" + type.getSeatsNumber() +
+                ", compartmentComfortClass='" + type.name() + '\'' +
+                ", passengers=" + Arrays.toString(passengers) +
+                ", cost=" + type.getCost() +
+                '}';
     }
+
 }

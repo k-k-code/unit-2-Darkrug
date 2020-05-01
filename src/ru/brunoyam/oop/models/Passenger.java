@@ -100,4 +100,13 @@ public class Passenger {
     public void setDocNumber(String docNumber) {
         this.docNumber = docNumber;
     }
+
+
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "docNumber='" + docNumber + '\'' +
+                '}';
+    }
+
 }
